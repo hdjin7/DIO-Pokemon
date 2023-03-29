@@ -22,11 +22,3 @@
     border-radius: 1rem;
   }
 }
-
-.pokemons {
-  display: grid;
-  grid-template-columns: 1fr;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
