@@ -11,10 +11,14 @@ function loadPokemonItens(offset, limit) {
       .map(
         (pokemon) => `
     <li class="pokemon ${pokemon.type}">
-      <span class="number">#${pokemon.number}</span>
-      <span class="name">${pokemon.name}</span>
+
+    <div id="pokemonCard-${
+      pokemon.number
+    }" class="pokemonCard" style="display:inline-block">
     
-      <div class="detail">
+    <span class="number">#${pokemon.number}</span>
+    <div class="name">${pokemon.name}</div>
+        <div class="detail">
           <ol class="types">
           ${pokemon.types
             .map((type) => `<li class="type ${type}">${type}</li>`)
@@ -24,6 +28,7 @@ function loadPokemonItens(offset, limit) {
                     
           <img src="${pokemon.photo}"
               alt="${pokemon.name}">
+        </div>
       </div>
 
       <!-- Estatísticas do Pokemon -->
@@ -47,11 +52,13 @@ function loadPokemonItens(offset, limit) {
       </div>
 
       <!-- Botão para mostrar/ocultar as estatísticas do Pokemon -->
-      <button class="btnStats" onclick="showStats(${
-        pokemon.number
-      })" style="font-size:0.75rem">
-      Pokemon stats
-      </button>
+      <div class="divStats">
+        <button class="btnStats" onclick="showStats(${
+          pokemon.number
+        })" style="font-size:0.75rem">
+        Pokemon stats
+        </button>
+      </div>
       
     </li>
     `
@@ -63,6 +70,15 @@ function loadPokemonItens(offset, limit) {
 
 loadPokemonItens(offset, limit);
 
+function showCard(id) {
+  const pokemonCard = document.querySelector(`#pokemonCard-${id}`);
+  if (pokemonCard.style.display === "none") {
+    pokemonCard.style.display = "inline-block";
+  } else {
+    pokemonCard.style.display = "none";
+  }
+}
+
 function showStats(id) {
   const pokemonStats = document.querySelector(`#details-${id}`);
   if (pokemonStats.style.display === "none") {
@@ -70,6 +86,7 @@ function showStats(id) {
   } else {
     pokemonStats.style.display = "none";
   }
+  showCard(id);
 }
 
 btnLoad.addEventListener("click", () => {
