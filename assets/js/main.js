@@ -11,19 +11,55 @@ function loadPokemonItens(offset, limit) {
       .map(
         (pokemon) => `
     <li class="pokemon ${pokemon.type}">
-      <span class="number">#${pokemon.number}</span>
-      <span class="name">${pokemon.name}</span>
+
+    <div id="pokemonCard-${
+      pokemon.number
+    }" class="pokemonCard" style="display:inline-block">
     
-      <div class="detail">
+    <span class="number">#${pokemon.number}</span>
+    <div class="name">${pokemon.name}</div>
+        <div class="detail">
           <ol class="types">
           ${pokemon.types
             .map((type) => `<li class="type ${type}">${type}</li>`)
             .join("")}
           </ol>
-    
+
+                    
           <img src="${pokemon.photo}"
               alt="${pokemon.name}">
+        </div>
       </div>
+
+      <!-- Estatísticas do Pokemon -->
+      <div id="details-${
+        pokemon.number
+      }" class="pokemonDetails" style="display:none">
+        <table class="pokemonStats">
+          <tbody>
+            ${pokemon.stats
+              .map(
+                (stat, index) => `
+              <tr>
+                <td>${stat}</td>
+                <td class="values">${pokemon.values[index]}</td>
+              </tr>
+            `
+              )
+              .join("")}
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Botão para mostrar/ocultar as estatísticas do Pokemon -->
+      <div class="divStats">
+        <button class="btnStats" onclick="showStats(${
+          pokemon.number
+        })" style="font-size:0.75rem">
+        Pokemon stats
+        </button>
+      </div>
+      
     </li>
     `
       )
@@ -33,6 +69,25 @@ function loadPokemonItens(offset, limit) {
 }
 
 loadPokemonItens(offset, limit);
+
+function showCard(id) {
+  const pokemonCard = document.querySelector(`#pokemonCard-${id}`);
+  if (pokemonCard.style.display === "none") {
+    pokemonCard.style.display = "inline-block";
+  } else {
+    pokemonCard.style.display = "none";
+  }
+}
+
+function showStats(id) {
+  const pokemonStats = document.querySelector(`#details-${id}`);
+  if (pokemonStats.style.display === "none") {
+    pokemonStats.style.display = "block";
+  } else {
+    pokemonStats.style.display = "none";
+  }
+  showCard(id);
+}
 
 btnLoad.addEventListener("click", () => {
   offset += limit;
